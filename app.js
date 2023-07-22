@@ -27,8 +27,9 @@
     const cusSnapshot = await getDocs(cusCol)
     return cusSnapshot
   }
+
 funtion showData(customer){
-  console.log(employee.data().dn)
+  console.log(employee.data());
 }
 
 const data = await getCutomers(db)
