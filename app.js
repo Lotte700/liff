@@ -62,24 +62,35 @@ const addForm = document.getElementById("addForm");
 addForm.addEventListener("submit", (event) => {
   // Prevent the default form submission behavior, which would cause a page reload
   event.preventDefault();
-
   // Access the form data using the FormData API
   const formData = new FormData(addForm);
-
   // Get the values entered by the user in the form fields
   const displayName = formData.get("dnf");
   const email = formData.get("emailf");
   const userID = formData.get("udf");
   const pictureURL = formData.get("purlf");
-
-  // Now you can use the form data to perform further actions, such as saving it to a database or displaying it on the page
-  // For example:
-  console.log("DisplayName:", displayName);
-  console.log("Email:", email);
-  console.log("userID:", userID);
-  console.log("Picture URL:", pictureURL);
-
   // Clear the form after submission (optional)
   addForm.reset();
 });
+async function addCustomerData() {
+  try {
+    // Data to be added to the "customers" collection
+    const customerData = {
+      dn: "John Doe",
+      email: "johndoe@example.com",
+      ud: "123456",
+      purl: "https://example.com/johndoe.jpg"
+    };
+
+    // Add data to the "customers" collection
+    const docRef = await db.collection("customers").add(customerData);
+    console.log("Document written with ID: ", docRef.id);
+  } catch (error) {
+    console.error("Error adding document: ", error);
+  }
+}
+
+// Call the function to add customer data
+addCustomerData();
+
 
