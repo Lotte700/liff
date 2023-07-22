@@ -23,6 +23,11 @@
         document.getElementById("displayName").innerHTML = '<b>DisplayName:</b> ' + profile.displayName;
         document.getElementById("statusMessage").innerHTML = '<b>StatusMessage:</b> ' + profile.statusMessage;
         document.getElementById("getDecodedIDToken").innerHTML = '<b>Email:</b> ' + liff.getDecodedIDToken().email;
+        const myObj ={
+      "profile":[ profile.pictureUrl,profile.userId, "Peter" ],
+        "email":liff.getDecodedIDToken().email
+                      };
+        console.log(myObj.profile);
       }).catch(err => console.error(err));
     }
     liff.init({ liffId: "2000073508-M5w6lqJj" }, () => {
