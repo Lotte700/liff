@@ -28,7 +28,7 @@
     return cusSnapshot
   }
 funtion showData(customer){
-  console.log(employee.dn)
+  console.log(employee.data().dn)
 }
 
 const data = await getCutomers(db)
