@@ -1,7 +1,7 @@
 
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
-  import { getFirestore ,collection ,getDocs } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js";
+  import { getFirestore ,collection ,getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js";
  
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
@@ -21,6 +21,16 @@
   // Initialize Firebase
  const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const form = document.getElementById("addForm")
+form.addEventListener('submit',(e)=>{
+  e.preventDefault()
+  addDoc(collection(db,'customers'),{
+      dn:form.dnf.value,
+      email:form.emailf.value,
+      ud:form.udf.value,
+      purl:form.purlf.value,
+})
+  alert("susecess")
 
 // Correct the method name to getElementById
 const table = document.getElementById("table");
