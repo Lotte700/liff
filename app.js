@@ -76,10 +76,10 @@ async function addCustomerData() {
   try {
     // Data to be added to the "customers" collection
     const customerData = {
-      dn: "John Doe",
-      email: "johndoe@example.com",
-      ud: "123456",
-      purl: "https://example.com/johndoe.jpg"
+      dn: displayName,
+      email: email,
+      ud: userID ,
+      purl: pictureURL
     };
 
     // Add data to the "customers" collection
