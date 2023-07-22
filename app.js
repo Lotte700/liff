@@ -22,7 +22,7 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  function getCutomers(db){
+  async function getCutomers(db){
     const cusCol = collection(db,'customers')
     const cusSnapshot = await getDocs(cusCol)
     return cusSnapshot
