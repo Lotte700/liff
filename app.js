@@ -31,6 +31,6 @@
 
 const data = await getCutomers(db)
 data.foreach(customer=>{
-  console.log(employee.data()
+  console.log(data()
 })
   
