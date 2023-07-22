@@ -28,7 +28,7 @@
     return cusSnapshot
   }
 function showData(customer) {
-  console.log(customer);
+  console.log(customer.data());
 }
 
 const data = await getCutomers(db); // Corrected the function name to 'getCustomers'
