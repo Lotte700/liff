@@ -59,38 +59,37 @@ populateTable();
 const addForm = document.getElementById("addForm");
 
 // Add a submit event listener to the form
-addForm.addEventListener("submit", (event) => {
+addForm.addEventListener("submit", async (event) => {
   // Prevent the default form submission behavior, which would cause a page reload
   event.preventDefault();
+
   // Access the form data using the FormData API
   const formData = new FormData(addForm);
+
   // Get the values entered by the user in the form fields
   const displayName = formData.get("dnf");
   const email = formData.get("emailf");
   const userID = formData.get("udf");
   const pictureURL = formData.get("purlf");
-  // Clear the form after submission (optional)
-  addForm.reset();
-});
-async function addCustomerData() {
+
   try {
     // Data to be added to the "customers" collection
     const customerData = {
       dn: displayName,
       email: email,
-      ud: userID ,
+      ud: userID,
       purl: pictureURL
     };
 
     // Add data to the "customers" collection
     const docRef = await db.collection("customers").add(customerData);
     console.log("Document written with ID: ", docRef.id);
+
+    // Clear the form after submission
+    addForm.reset();
   } catch (error) {
     console.error("Error adding document: ", error);
   }
-}
-
-// Call the function to add customer data
-addCustomerData();
+});
 
 
