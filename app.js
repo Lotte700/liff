@@ -28,7 +28,7 @@
     return cusSnapshot
   }
 
-funtion showData(customer){
+funtion showData(){
   console.log(employee.data());
 }
 
