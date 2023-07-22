@@ -21,7 +21,7 @@
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-  const table = document.getElementByID("table")
+  const table = document.getElementByID("table");
 
   async function getCutomers(db){
     const cusCol = collection(db,'customers')
