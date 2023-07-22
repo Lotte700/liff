@@ -19,25 +19,36 @@
   };
 
   // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const table = document.getElementByID("table");
+ const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-  async function getCutomers(db){
-    const cusCol = collection(db,'customers')
-    const cusSnapshot = await getDocs(cusCol)
-    return cusSnapshot
-  }
-function showData(customer) {
-  const row = table.insertRow(-1)
-  const dnCol = row.inertCell(0)
-  const emailCol = row.inertCell(1)
-  const purlCol = row.inertCell(2)
-  const udCol = row.inertCell(3)
-  dnCol.innerHTML = customer.data().dn
+// Correct the method name to getElementById
+const table = document.getElementById("table");
+
+async function getCustomers(db) {
+  const cusCol = collection(db, 'customers');
+  const cusSnapshot = await getDocs(cusCol);
+  return cusSnapshot;
 }
 
-const data = await getCutomers(db); // Corrected the function name to 'getCustomers'
-data.forEach((customer) => {
-  showData(customer);
-});
+async function populateTable() {
+  const data = await getCustomers(db);
+
+  data.forEach((customer) => {
+    // Assuming customer.data() returns an object with the fields: DisplayName, idUser, email, purl
+    const { DisplayName, idUser, email, purl } = customer.data();
+
+    // Create a new row for each customer and populate the cells with data
+    const newRow = table.insertRow();
+    newRow.innerHTML = `
+      <td>${DisplayName}</td>
+      <td>${idUser}</td>
+      <td>${email}</td>
+      <td>${purl}</td>
+    `;
+  });
+}
+
+// Call the populateTable function to populate the table with customer data
+populateTable();
+
