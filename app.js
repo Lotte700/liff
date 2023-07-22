@@ -28,12 +28,9 @@
     return cusSnapshot
   }
 
-funtion showData(){
-  console.log(employee.data());
-}
 
 const data = await getCutomers(db)
 data.foreach(customer=>{
-  showData(customer)
+  console.log(employee.data()
 })
   
