@@ -21,6 +21,7 @@
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  const table = document.getElementByID("table")
 
   async function getCutomers(db){
     const cusCol = collection(db,'customers')
@@ -28,7 +29,12 @@
     return cusSnapshot
   }
 function showData(customer) {
-  console.log(customer.data());
+  const row = table.insertRow(-1)
+  const dnCol = row.inertCell(0)
+  const emailCol = row.inertCell(1)
+  const purlCol = row.inertCell(2)
+  const udCol = row.inertCell(3)
+  dnCol.innerHTML = customer.data().dn
 }
 
 const data = await getCutomers(db); // Corrected the function name to 'getCustomers'
