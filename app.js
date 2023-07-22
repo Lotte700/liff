@@ -36,14 +36,14 @@ async function populateTable() {
 
   data.forEach((customer) => {
     // Assuming customer.data() returns an object with the fields: DisplayName, idUser, email, purl
-    const { DisplayName, idUser, email, purl } = customer.data();
+    const { dn, email, ud, purl } = customer.data();
 
     // Create a new row for each customer and populate the cells with data
     const newRow = table.insertRow();
     newRow.innerHTML = `
-      <td>${DisplayName}</td>
-      <td>${idUser}</td>
+      <td>${dn}</td>
       <td>${email}</td>
+      <td>${ud}</td>
       <td>${purl}</td>
     `;
   });
