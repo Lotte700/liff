@@ -27,7 +27,12 @@
     const cusSnapshot = await getDocs(cusCol)
     return cusSnapshot
   }
+funtion showData(customer){
+  console.log(employee.dn)
+}
 
 const data = await getCutomers(db)
-console.log(data)
+data.foreach(customer=>{
+  showData(customer)
+})
   
