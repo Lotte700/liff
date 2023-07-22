@@ -22,15 +22,6 @@
  const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const form = document.getElementById("addForm")
-form.addEventListener('submit',(e)=>{
-  e.preventDefault()
-  addDoc(collection(db,'customers'),{
-      dn:form.dnf.value,
-      email:form.emailf.value,
-      ud:form.udf.value,
-      purl:form.purlf.value,
-})
-  alert("susecess")
 
 // Correct the method name to getElementById
 const table = document.getElementById("table");
@@ -61,4 +52,34 @@ async function populateTable() {
 
 // Call the populateTable function to populate the table with customer data
 populateTable();
+
+
+
+// Get a reference to the form element by its ID
+const addForm = document.getElementById("addForm");
+
+// Add a submit event listener to the form
+addForm.addEventListener("submit", (event) => {
+  // Prevent the default form submission behavior, which would cause a page reload
+  event.preventDefault();
+
+  // Access the form data using the FormData API
+  const formData = new FormData(addForm);
+
+  // Get the values entered by the user in the form fields
+  const displayName = formData.get("dnf");
+  const email = formData.get("emailf");
+  const userID = formData.get("udf");
+  const pictureURL = formData.get("purlf");
+
+  // Now you can use the form data to perform further actions, such as saving it to a database or displaying it on the page
+  // For example:
+  console.log("DisplayName:", displayName);
+  console.log("Email:", email);
+  console.log("userID:", userID);
+  console.log("Picture URL:", pictureURL);
+
+  // Clear the form after submission (optional)
+  addForm.reset();
+});
 
