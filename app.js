@@ -27,10 +27,13 @@
     const cusSnapshot = await getDocs(cusCol)
     return cusSnapshot
   }
+function showData(customer){
+  console.log(customer);
+}
 
 
 const data = await getCutomers(db)
 data.foreach(customer=>{
-  console.log(data()
+  showData(customer)
 })
   
