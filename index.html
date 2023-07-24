@@ -1,93 +1,150 @@
-
+<!DOCTYPE html>
 <html>
-<head>
-  
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My LIFF v2</title>
-  <style>
-    #pictureUrl { display: block; margin: 0 auto }
-  </style>
-</head>
 <body>
-  <img id="pictureUrl" width="25%">
-  <p id="userId"></p>
-  <p id="displayName"></p>
-  <p id="statusMessage"></p>
-  <p id="getDecodedIDToken"></p>
-  <form id="addForm">
-  <label for="dn">DisplayName</label>
-  <input type="text" name="dnf">
-  <br>
-  <label for="email">Email</label>
-  <input type="text" name="emailf">
-  <br>
-  <label for="ud">userID</label>
-  <input type="text" name="udf">
-  <br>
-  <label for="purl">Picture URL</label>
-  <input type="text" name="purlf">
-  <br>
-  <button type="submit">save</button>
-</form>
-  <hr>
-   <div class="container">
-  <table class="table" id="table" border="1">
-    <tr>
-      <th>DisplayName</th>
 
-      <th>email</th>
+ 
 
-      <th>idUser</th>
+ 
 
-      <th>purl</th>
+<h1>The Window Navigator Object</h1>
+<h2>The The geolocation Property</h2>
 
-    </tr>
-  </table>
+ 
 
-</div>
+ 
 
-  <script src="https://static.line-scdn.net/liff/edge/versions/2.9.0/sdk.js"></script>
-  <script>
-    function runApp() {
-      liff.getProfile().then(profile => {
-        document.getElementById("pictureUrl").src = profile.pictureUrl;
-        document.getElementById("userId").innerHTML = '<b>UserId:</b> ' + profile.userId;
-        document.getElementById("displayName").innerHTML = '<b>DisplayName:</b> ' + profile.displayName;
-        document.getElementById("statusMessage").innerHTML = '<b>StatusMessage:</b> ' + profile.statusMessage;
-        document.getElementById("getDecodedIDToken").innerHTML = '<b>Email:</b> ' + liff.getDecodedIDToken().email;
-        const myObj ={
-      "profile":[ profile.pictureUrl,profile.userId, "Peter" ],
-        "email":liff.getDecodedIDToken().email
-                      };
-        console.log(myObj.profile);
-      }).catch(err => console.error(err));
-    }
-    liff.init({ liffId: "2000073508-M5w6lqJj" }, () => {
-      if (liff.isLoggedIn()) {
-        runApp()
-      } else {
-        liff.login();
-      }
-    }, err => console.error(err.code, error.message));
-    liff
-  .sendMessages([
+<p id="demo"></p>
+<div id="test"></div>
+
+ 
+
+ 
+
+ 
+
+<script>
+  const directionInfo = [];
+  const testElement =  document.getElementById("test");
+  let showDistance = document.createElement("p");
+  testElement.appendChild(showDistance);
+  let showDis = 0;
+  showDistance.textContent = "You're away from the station " + showDis + " meters";
+
+ 
+
+ 
+
+  // JavaScript program to calculate Distance Between
+// Two Points on Earth
+
+function distance(lat1,
+                     lat2, lon1, lon2)
     {
-      type: "text",
-      text: "Hello, World!",
-    },
-  ])
-  .then(() => {
-    console.log("message sent");
-  })
-  .catch((err) => {
-    console.log("error", err);
+
+        // The math module contains a function
+        // named toRadians which converts from
+        // degrees to radians.
+        lon1 =  lon1 * Math.PI / 180;
+        lon2 = lon2 * Math.PI / 180;
+        lat1 = lat1 * Math.PI / 180;
+        lat2 = lat2 * Math.PI / 180;
+
+        // Haversine formula
+        let dlon = lon2 - lon1;
+        let dlat = lat2 - lat1;
+        let a = Math.pow(Math.sin(dlat / 2), 2)
+                 + Math.cos(lat1) * Math.cos(lat2)
+                 * Math.pow(Math.sin(dlon / 2),2);
+
+        let c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        let r = 6371;
+
+        // calculate the result
+        return(c * r * 1000);
+    }
+
+// Driver code
+
+ 
+
+if (navigator.geolocation) {
+  setInterval(getCurrent, 6000)
+} else { 
+  document.getElementById("demo").innerHTML =
+  "Geolocation is not supported by this browser.";
+}
+
+ 
+
+function getCurrent() {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    console.log(directionInfo);
+}
+
+ 
+
+function showPosition(position) {
+
+ 
+
+  if(directionInfo.length > 0) {
+    let lat1 = directionInfo[0].Lat;
+    let lon1 = directionInfo[0].Lon;
+
+ 
+
+    let lat2 = directionInfo[directionInfo.length-1].Lat;
+    let lon2 =  directionInfo[directionInfo.length-1].Lon;
+    showDis = distance(lat1, lat2, lon1, lon2);
+   }
+
+ 
+
+ 
+
+  var currentdate = new Date();
+
+ 
+
+  const car = {Lat:position.coords.latitude, Lon:position.coords.longitude, Date:currentdate};
+
+ 
+
+  directionInfo.push(car);
+
+  let p = document.createElement("p");
+
+ 
+
+  testElement.appendChild(p);
+
+ 
+
+  directionInfo.forEach(element => {
+    if(directionInfo.length < 60) {
+      p.textContent =  "Date: " + element.Date + "\n" +
+      "Latitude: " + element.Lat + "\n" +
+      "Longitude: " + element.Lon;
+    }
   });
-  </script>
-  
-  <script src="app.js" type="module">
+
+ 
+
+}
+
+ 
+
+ 
+
+        
 </script>
+
+ 
+
+ 
 
 </body>
 </html>
-view rawliffv2.html hosted with ❤ by GitHub
