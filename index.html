@@ -1,20 +1,62 @@
 <!DOCTYPE html>
+
 <html>
+
+  <head>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+
+    crossorigin=""/>
+
+ 
+
+     <!-- Make sure you put this AFTER Leaflet's CSS -->
+
+ <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+
+ integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+
+ crossorigin=""></script>
+
+  </head>
+
+ 
+
+  <style>
+
+    #map { height: 400px; }
+
+  </style>
+
 <body>
 
  
 
  
 
+ 
+
 <h1>The Window Navigator Object</h1>
+
 <h2>The The geolocation Property</h2>
 
  
 
  
 
+ 
+
 <p id="demo"></p>
+
 <div id="test"></div>
+
+<div id="map"></div>
+
+ 
+
+ 
 
  
 
@@ -23,85 +65,152 @@
  
 
 <script>
-  const directionInfo = [];
-  const testElement =  document.getElementById("test");
-  let showDistance = document.createElement("p");
-  testElement.appendChild(showDistance);
-  let showDis = 0;
-  showDistance.textContent = "You're away from the station " + showDis + " meters";
+
+  const displayMap = (lat, lon) => {
+
+    var map = L.map('map').setView([lat, lon], 18);
 
  
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
+      maxZoom: 20,
+
+      setView: false,
+
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+
+    }).addTo(map);
+
+ 
+
+ 
+
+    var marker = L.marker([lat,  lon]).addTo(map);
+
+  }
+
+ 
+
+ 
+
+ 
+
+  const directionInfo = [];
+
+  const testElement =  document.getElementById("test");
+
+  let showDistance = document.createElement("p");
+
+  testElement.appendChild(showDistance);
+
+  //let showDis = 0;
+
+ 
+
+ 
+
+  let latestLat = 0;
+
+  let latestLon = 0;
 
  
 
   // JavaScript program to calculate Distance Between
+
 // Two Points on Earth
 
+ 
+
 function distance(lat1,
+
                      lat2, lon1, lon2)
+
     {
 
+   
+
         // The math module contains a function
+
         // named toRadians which converts from
+
         // degrees to radians.
+
         lon1 =  lon1 * Math.PI / 180;
+
         lon2 = lon2 * Math.PI / 180;
+
         lat1 = lat1 * Math.PI / 180;
+
         lat2 = lat2 * Math.PI / 180;
 
+   
+
         // Haversine formula
+
         let dlon = lon2 - lon1;
+
         let dlat = lat2 - lat1;
+
         let a = Math.pow(Math.sin(dlat / 2), 2)
+
                  + Math.cos(lat1) * Math.cos(lat2)
+
                  * Math.pow(Math.sin(dlon / 2),2);
+
+               
 
         let c = 2 * Math.asin(Math.sqrt(a));
 
+   
+
         // Radius of earth in kilometers. Use 3956
+
         // for miles
+
         let r = 6371;
 
+   
+
         // calculate the result
+
         return(c * r * 1000);
+
     }
+
+ 
 
 // Driver code
 
  
 
 if (navigator.geolocation) {
+
   setInterval(getCurrent, 6000)
-} else { 
+
+  console.log(directionInfo)
+
+} else {
+
   document.getElementById("demo").innerHTML =
+
   "Geolocation is not supported by this browser.";
+
 }
 
  
 
 function getCurrent() {
+
     navigator.geolocation.getCurrentPosition(showPosition);
-    console.log(directionInfo);
+
 }
 
  
 
+ 
+
 function showPosition(position) {
-
- 
-
-  if(directionInfo.length > 0) {
-    let lat1 = directionInfo[0].Lat;
-    let lon1 = directionInfo[0].Lon;
-
- 
-
-    let lat2 = directionInfo[directionInfo.length-1].Lat;
-    let lon2 =  directionInfo[directionInfo.length-1].Lon;
-    showDis = distance(lat1, lat2, lon1, lon2);
-   }
-
- 
 
  
 
@@ -115,36 +224,90 @@ function showPosition(position) {
 
   directionInfo.push(car);
 
+ 
+
   let p = document.createElement("p");
 
  
 
-  testElement.appendChild(p);
+  console.log(directionInfo.length)
 
  
 
-  directionInfo.forEach(element => {
-    if(directionInfo.length < 60) {
-      p.textContent =  "Date: " + element.Date + "\n" +
-      "Latitude: " + element.Lat + "\n" +
-      "Longitude: " + element.Lon;
-    }
+  if(directionInfo.length === 0) {
+
+    let currentLat = directionInfo[0];
+
+   
+
+  } else {
+
+    let lat1 = directionInfo[0].Lat;
+
+    let lon1 = directionInfo[0].Lon;
+
+ 
+
+    let lat2 = directionInfo[directionInfo.length-1].Lat;
+
+    let lon2 =  directionInfo[directionInfo.length-1].Lon;
+
+    let showDis = distance(lat1, lat2, lon1, lon2);
+
+    showDistance.textContent = "You're away from the station "+ showDis +" meters";
+
+ 
+
+    directionInfo.forEach(element => {
+
+    testElement.appendChild(p);
+
+ 
+
+    // if(directionInfo.length < 60) {
+
+    //   p.textContent =  "Date: " + element.Date + "\n" +
+
+    //   "Latitude: " + element.Lat + "\n" +
+
+    //   "Longitude: " + element.Lon;
+
+    // }
+
+ 
+
+    latestLat = lat2;
+
+    latestLon = lon2;
+
+    displayMap(latestLat, latestLon);
+
   });
+
+ 
+
+ 
+
+  }
+
+ 
+
+ 
 
  
 
 }
 
- 
+       
 
- 
-
-        
 </script>
 
  
 
  
 
+ 
+
 </body>
+
 </html>
